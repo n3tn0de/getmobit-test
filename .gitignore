@@ -1,0 +1,11 @@
+node_modules/
+client/dist/
+
+.DS_Store
+.vscode
+
+.env
+.log
+
+# Preserve dir structure
+!**/.keep
