@@ -4,6 +4,7 @@ services:
     build: ./server
     environment:
       - MONGO_URI=mongodb://db:27017/getmobit
+      - REDIS_URI=redis://redis:6379
     command: [ "npm", "run", "${SERVER_NPM_CMD:-start}" ]
     volumes:
       - ./server:/usr/src/app
@@ -12,9 +13,14 @@ services:
      - "3000:3000"
     depends_on:
       - db
+      - redis
   db:
     image: mongo
     volumes:
       - ./.db:/data/db
     ports:
       - "27018:27017"
+  redis:
+    image: redis
+    ports:
+      - "6380:6379"
