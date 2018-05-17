@@ -5,7 +5,7 @@ import session from 'express-session'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import passport from './utils/passport-config'
-import { populateUsers } from './utils/populate-db'
+import { populateUsers, populateDevices } from './utils/populate-db'
 import routes from './routes'
 
 dotenv.config()
@@ -17,25 +17,25 @@ const db = mongoose.connection
 
 // eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
+db.once('open', async () => {
+  if (await mongoose.model('Device').count() === 0) {
+    if (await mongoose.model('User').count() === 0) {
+      // eslint-disable-next-line no-console
+      console.log('Populating Users')
+      await populateUsers()
+    }
+    // eslint-disable-next-line no-console
+    console.log('Populating Devices')
+    await populateDevices()
+  }
+
   const modelsNames = Object.keys(mongoose.models)
 
-  modelsNames.map(modelName => {
+  modelsNames.map(async modelName => {
     const model = mongoose.model(modelName)
-    model.count((err, count) => {
-      // eslint-disable-next-line no-console
-      console.log(`${model.collection.collectionName}: ${count}`)
-      if (modelName === 'User' && count === 0) {
-        // eslint-disable-next-line no-console
-        console.log('Populating Users')
-        populateUsers()
-      }
-      if (modelName === 'Device' && count === 0) {
-        // eslint-disable-next-line no-console
-        console.log('Populating Devices')
-        // populateDevices()
-      }
-    })
+    const count = await model.count()
+    // eslint-disable-next-line no-console
+    console.log(`${model.collection.collectionName}: ${count}`)
   })
 })
 
