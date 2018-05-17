@@ -1,7 +1,10 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-mongoose.connect('mongodb://db:27017/getmobit')
+dotenv.config()
+
+mongoose.connect(process.env.MONGO_URI)
 const db = mongoose.connection
 
 db.on('error', console.error.bind(console, 'connection error:'));
