@@ -15,7 +15,10 @@ const sendErrorMessage = (res, message, error) => {
 
 devices.get('/', (req, res) => {
   const { page, limit, search } = req.body
-  if (typeof(page) !== 'number' || typeof(limit) !== 'number') {
+  if (
+    page && typeof(page) !== 'number' ||
+    limit && typeof(limit) !== 'number'
+  ) {
     return sendErrorMessage(res, 'Page and limit must be a number')
   }
   if (search && typeof(search) !== 'string') {
