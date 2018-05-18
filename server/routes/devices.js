@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Device from '../models/Device'
 import paginate from '../utils/paginate'
+import ensureCanEdit from '../utils/ensure-can-edit'
 
 const devices = Router()
 
@@ -75,7 +76,7 @@ const create = (req, res) => {
   })
 }
 
-devices.post('/', create)
+devices.post('/', ensureCanEdit, create)
 
 const modify = (req, res) => {
   if (Object.keys(req.body).length === 0) {
@@ -92,9 +93,9 @@ const modify = (req, res) => {
   })
 }
 
-devices.patch('/:id', modify)
+devices.patch('/:id', ensureCanEdit, modify)
 
-devices.put('/:id', (req, res) => {
+devices.put('/:id', ensureCanEdit, (req, res) => {
   Device
     .findById(req.params.id)
     .exec((err, data) => {
@@ -105,7 +106,7 @@ devices.put('/:id', (req, res) => {
     })
 })
 
-devices.delete('/:id', (req, res) => {
+devices.delete('/:id', ensureCanEdit, (req, res) => {
   Device.deleteOne({ _id: req.params.id }, (err, data) => {
     if (err && err.kind === "ObjectId") {
       return res.status(404).send()
