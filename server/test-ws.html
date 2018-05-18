@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WS test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      console.log('test')
+      // Create WebSocket connection.
+      const socket = new WebSocket('ws://localhost:3000/ws');
+
+      // Listen for messages
+      socket.addEventListener('message', function (event) {
+        console.log('Message from server ', event.data);
+      });
+
+    </script>
+  </head>
+  <body>
+    WS test
+  </body>
+</html>

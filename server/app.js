@@ -1,13 +1,17 @@
+import http from 'http'
+import WebSocket from 'ws'
 import express from 'express'
 import expressSanitized from 'express-sanitized'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import cookie from 'cookie'
 import session from 'express-session'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import passport from './utils/passport-config'
 import { populateUsers, populateDevices } from './utils/populate-db'
 import routes from './routes'
+import { eventEmitter as devicesApi } from './routes/devices'
 
 dotenv.config()
 
@@ -41,21 +45,70 @@ db.once('open', async () => {
 })
 
 const app = express()
+const store = new RedisStore({ url: process.env.REDIS_URI })
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressSanitized())
 app.use(session({
-  store: new RedisStore({ url: process.env.REDIS_URI }),
+  store,
   secret: process.env.COOKIE_SECRET,
   maxAge: 30 * 24 * 60 * 1000
 }))
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.get('/test/ws', (req, res) =>
+  res.sendFile('./test-ws.html', { root: __dirname }))
+
+app.get('/test/login', (req, res) =>
+  res.sendFile('./test-auth.html', { root: __dirname }))
 
 app.use('/', routes)
-app.listen(3000)
 
-export default app
+const server = http.createServer(app);
+const wss = new WebSocket.Server({
+  server,
+  path: '/ws',
+  verifyClient: (info, done) => {
+    const cook = cookie.parse(info.req.headers.cookie)
+    const id =
+      cookieParser.signedCookie(cook['connect.sid'], process.env.COOKIE_SECRET)
+    store.get(id, (err, sess) => {
+      if (sess && sess.passport) {
+        info.req.userId = sess.passport.user;
+        return done(info.req.userId)
+      }
+    })
+  },
+})
+
+const events = ['create', 'update', 'delete']
+let areEventsBinded = false
+
+const bindEvents = (wss) => {
+  if (areEventsBinded) {
+    return
+  }
+  areEventsBinded = true
+  events.map(event => {
+    devicesApi.on(event, (data) => {
+      wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ event: `device-${event}`, data}))
+        }
+      })
+    })
+  })
+}
+
+wss.on('connection', (ws) => {
+  ws.send(JSON.stringify({ message: 'Welcome' }))
+  bindEvents(wss)
+});
+
+server.listen(3000)
+
+export default server

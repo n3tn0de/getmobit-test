@@ -1,9 +1,12 @@
 import { Router } from 'express'
+import events from 'events'
 import Device from '../models/Device'
 import paginate from '../utils/paginate'
 import ensureCanEdit from '../utils/ensure-can-edit'
 
 const devices = Router()
+
+const eventEmitter = new events.EventEmitter();
 
 const sendErrorMessage = (res, message, error) => {
   res.status(400).send({
@@ -75,6 +78,7 @@ const create = (req, res) => {
     if (err) {
       return sendErrorMessage(res, null, err)
     }
+    eventEmitter.emit('create', data)
     res.status(201).send({ success: true, data })
   })
 }
@@ -92,6 +96,7 @@ const modify = (req, res) => {
     if (err) {
       return sendErrorMessage(res, null, err)
     }
+    eventEmitter.emit('update', data)
     res.status(200).send({ success: true, data })
   })
 }
@@ -117,8 +122,10 @@ devices.delete('/:id', ensureCanEdit, (req, res) => {
     if (err) {
       return sendErrorMessage(res, null, err)
     }
+    eventEmitter.emit('delete', data)
     res.status(200).send({ success: true, data })
   })
 })
 
+export { eventEmitter }
 export default devices
