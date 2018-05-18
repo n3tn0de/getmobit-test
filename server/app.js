@@ -1,4 +1,5 @@
 import express from 'express'
+import expressSanitized from 'express-sanitized'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
@@ -44,6 +45,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(expressSanitized())
 app.use(session({
   store: new RedisStore({ url: process.env.REDIS_URI }),
   secret: process.env.COOKIE_SECRET,
