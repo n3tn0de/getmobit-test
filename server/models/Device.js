@@ -27,7 +27,7 @@ const DeviceSchema = new mongoose.Schema({
   description: String,
   group: String,
   office: Number,
-  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   os: String,
 }, {timestamps: true})
 
