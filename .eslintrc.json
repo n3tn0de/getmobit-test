@@ -8,6 +8,13 @@
   "rules": {
     "no-console": 1
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js",".jsx"]
+      }
+    }
+  },
   "env": {
     "es6": true,
     "browser": true,
