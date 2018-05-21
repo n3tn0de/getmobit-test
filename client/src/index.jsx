@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader';
-import Root from './containers/Root'
+import Root from './containers/Root/Root'
 import { Router, Route, browserHistory } from 'react-router';
 import { attach as attachFastClick } from 'fastclick'
 import 'normalize.css'
@@ -20,8 +20,8 @@ const render = Component => {
 render(Root)
 
 if (module.hot) {
-  module.hot.accept('./containers/Root.jsx', () => {
-    const NextRootContainer = require('./containers/Root').default;
+  module.hot.accept('./containers/Root/Root.jsx', () => {
+    const NextRootContainer = require('./containers/Root/Root').default;
     render(NextRootContainer);
   });
 }

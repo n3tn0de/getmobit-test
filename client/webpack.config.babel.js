@@ -88,7 +88,7 @@ const rules = {
   development: [{
     test: /\.css$/,
     loader: `style-loader!` +
-            `css-loader?localIdentName=[name]_[local]-[hash:base64:5]!` +
+            `css-loader?localIdentName=[name]_[local]-[hash:base64:5]&modules=true!` +
             `postcss-loader`,
   }, {
     test: /\.(png|jpg|jpeg|gif)$/,
