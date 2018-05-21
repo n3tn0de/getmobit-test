@@ -11,6 +11,8 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "scripts": {
-    "postinstall": "cd server && npm i && cd ../client && npm i"
+    "postinstall": "cd server && npm i && cd ../client && npm i",
+    "start": "docker-compose up",
+    "dev": "SERVER_NPM_CMD=dev CLIENT_NPM_CMD=start docker-compose up"
   }
 }
