@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import { AppContainer } from 'react-hot-loader';
-import Root from './containers/Root/Root'
-import { Router, Route, browserHistory } from 'react-router';
+
 import { attach as attachFastClick } from 'fastclick'
 import 'normalize.css'
+
+import Root from './containers/Root/Root'
 
 attachFastClick(document.body)
 
