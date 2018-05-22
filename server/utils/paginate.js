@@ -1,7 +1,7 @@
 export default async function paginate (
   Model, page = 1, limit = 25, options, callback
 ) {
-  const { query = {}, fields, populate, populateFields } = options
+  const { query = {}, fields, populate = '', populateFields } = options
   const total = await Model.count()
   const maxLimit = 100
   const currentLimit = limit > maxLimit ? maxLimit : limit;
