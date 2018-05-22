@@ -5,8 +5,8 @@ const auth = Router()
 
 auth.post('/login',
   passport.authenticate('local', {
-  }),
-  (req, res) => res.send({ success: true })
+    successRedirect: '/v1/users/current'
+  })
 )
 
 auth.post('/logout',
