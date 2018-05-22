@@ -1,6 +1,7 @@
 import http from 'http'
 import WebSocket from 'ws'
 import express from 'express'
+import cors from 'cors'
 import expressSanitized from 'express-sanitized'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
@@ -46,6 +47,13 @@ db.once('open', async () => {
 
 const app = express()
 const store = new RedisStore({ url: process.env.REDIS_URI })
+
+app.use(cors({
+  origin: process.env.ALLOW_ORIGIN,
+  credentials: true,
+  optionsSuccessStatus: 200
+    // some legacy browsers (IE11, various SmartTVs) choke on 204
+}))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
