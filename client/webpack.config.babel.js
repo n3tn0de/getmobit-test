@@ -103,6 +103,7 @@ const rules = {
         options: {
           importLoaders: 1,
           minimize: true,
+          modules: true,
         },
       },
       `postcss-loader`,
