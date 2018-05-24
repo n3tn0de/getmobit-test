@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 
 import { AppContainer } from 'react-hot-loader';
 
-import { Route, Link } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
@@ -46,7 +45,7 @@ attachFastClick(document.body)
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-    <Provider store={store}>
+      <Provider store={store}>
         <ConnectedRouter history={history}>
           <Component />
         </ConnectedRouter>
