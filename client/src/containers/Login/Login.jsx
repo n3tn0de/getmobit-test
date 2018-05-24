@@ -1,14 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux'
+
+import { store } from '../../index'
 
 import * as actions from '../../actions/login';
 
 import styles from './Login.css'
 
 class Login extends Component {
+  UNSAFE_componentWillMount() {
+    this.redirectLoggedUser()
+  }
+
   componentDidMount() {
     document.title = 'Login'
+  }
+
+  componentDidUpdate() {
+    this.redirectLoggedUser()
+  }
+
+  redirectLoggedUser = () => {
+    if (this.props.user._id) {
+      return store.dispatch(push('/'))
+    }
   }
 
   handleSubmit = event => {

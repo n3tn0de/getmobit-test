@@ -37,7 +37,6 @@ const middleware = [
 
 let store, DevTools = null
 
-
 if (IS_DEVELOPMENT) {
   const ReduxDevtools = require('redux-devtools');
   const LogMonitor = require('redux-devtools-log-monitor').default;
@@ -103,3 +102,5 @@ if (module.hot) {
     store.replaceReducer(reducer);
   });
 }
+
+export {store}
