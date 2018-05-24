@@ -1,19 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { AppContainer } from 'react-hot-loader';
+import { AppContainer } from 'react-hot-loader'
 
 import createHistory from 'history/createBrowserHistory'
 
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import { Provider } from 'react-redux'
 import {
   ConnectedRouter,
   routerReducer,
   routerMiddleware,
-} from 'react-router-redux';
+} from 'react-router-redux'
 
-import * as reducers from './reducers';
+import * as reducers from './reducers'
 
 import apiMiddleware from './middleware/api'
 
@@ -35,10 +35,39 @@ const middleware = [
   routerMiddleware(history),
 ];
 
-const store = createStore(
-  reducer,
-  applyMiddleware(...middleware)
-);
+let store, DevTools = null
+
+
+if (IS_DEVELOPMENT) {
+  const ReduxDevtools = require('redux-devtools');
+  const LogMonitor = require('redux-devtools-log-monitor').default;
+  const DockMonitor = require('redux-devtools-dock-monitor').default;
+
+  DevTools = ReduxDevtools.createDevTools(
+    <DockMonitor
+      toggleVisibilityKey="ctrl-h"
+      changePositionKey="ctrl-q"
+      defaultIsVisible={localStorage.getItem(`devtool`) === 'true' || false}
+    >
+      <LogMonitor theme="solarized" preserveScrollTop={false} />
+    </DockMonitor>
+  );
+
+  store = createStore(
+    reducer,
+    {},
+    compose(
+      applyMiddleware(...middleware),
+      DevTools.instrument(),
+    ),
+  );
+} else {
+  store = createStore(
+    reducer,
+    {},
+    compose(applyMiddleware(...middleware))
+  );
+}
 
 attachFastClick(document.body)
 
@@ -46,9 +75,12 @@ const render = Component => {
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Component />
-        </ConnectedRouter>
+        <div>
+          <ConnectedRouter history={history}>
+            <Component />
+          </ConnectedRouter>
+          {DevTools && <DevTools />}
+        </div>
       </Provider>
     </AppContainer>,
     document.getElementById(`getmobit`)
