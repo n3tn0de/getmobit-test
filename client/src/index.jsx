@@ -20,6 +20,7 @@ import apiMiddleware from './middleware/api'
 
 import { attach as attachFastClick } from 'fastclick'
 import 'normalize.css'
+import 'whatwg-fetch'
 
 import Root from './containers/Root/Root'
 
