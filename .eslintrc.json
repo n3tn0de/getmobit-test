@@ -15,6 +15,10 @@
       }
     }
   },
+  "globals": {
+    "API": true,
+    "IS_DEVELOPMENT": true
+  },
   "env": {
     "es6": true,
     "browser": true,
