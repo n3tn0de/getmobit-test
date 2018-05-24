@@ -86,7 +86,7 @@ const rules = {
   }],
 
   development: [{
-    test: /\.css$/,
+    test: /\.s?css$/,
     loader: `style-loader!` +
             `css-loader?localIdentName=[name]_[local]-[hash:base64:5]&modules=true!` +
             `postcss-loader`,
@@ -96,7 +96,7 @@ const rules = {
   }],
 
   production: [{
-    test: /\.css$/,
+    test: /\.s?css$/,
     use: ExtractTextPlugin.extract([
       {
         loader: `css-loader`,

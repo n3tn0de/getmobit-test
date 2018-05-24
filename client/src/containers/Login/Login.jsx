@@ -7,7 +7,7 @@ import { store } from '../../index'
 
 import * as actions from '../../actions/login';
 
-import styles from './Login.css'
+import styles from './Login.scss'
 
 class Login extends Component {
   UNSAFE_componentWillMount() {

@@ -17,6 +17,7 @@
   align-items: center;
   max-width: 100vw;
   padding: 10px;
+
   :global {
     animation: 1.5s fade-in forwards;
   }
@@ -25,6 +26,7 @@
 .heading {
   font-size: 4em;
   opacity: 0;
+
   :global {
     animation: 1s .5s fade-in forwards;
   }

@@ -5,7 +5,7 @@ import { Route, Link, withRouter } from 'react-router-dom'
 
 import * as actions from '../../actions/init';
 
-import styles from './Root.css'
+import styles from './Root.scss'
 
 import Login from '../Login/Login'
 
