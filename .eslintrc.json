@@ -6,7 +6,8 @@
     "plugin:react/recommended"
   ],
   "rules": {
-    "no-console": 1
+    "no-console": 1,
+    "react/prop-types": 1
   },
   "settings": {
     "import/resolver": {
