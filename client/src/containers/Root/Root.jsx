@@ -4,6 +4,7 @@ import { Route, Link } from 'react-router-dom'
 
 import styles from './Root.css'
 
+import Login from '../Login/Login'
 
 class Root extends Component {
   render() {
@@ -13,6 +14,11 @@ class Root extends Component {
           exact
           path="/"
           component={() => <nav><Link to="/hello">Hello</Link></nav>}
+        />
+        <Route
+          exact
+          path="/login"
+          component={Login}
         />
         <Route
           path="/hello"
