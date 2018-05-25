@@ -41,6 +41,10 @@ users.get('/', (req, res) => {
       fields,
     },
     (err, data, pg) => {
+      if (err === 404) {
+        return res.status(err).send()
+      }
+
       if (err) {
         return res.status(500).send()
       }
