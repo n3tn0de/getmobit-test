@@ -10,6 +10,15 @@ import * as actions from '../../actions/login';
 import styles from './Login.scss'
 
 class Login extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state ={
+      email: '',
+      password: '',
+    }
+  }
+
   UNSAFE_componentWillMount() {
     this.redirectLoggedUser()
   }
@@ -22,6 +31,20 @@ class Login extends Component {
     this.redirectLoggedUser()
   }
 
+  updateEmail = (event) => {
+    this.setState({
+      ...this.state,
+      email: event.target.value,
+    })
+  }
+
+  updatePassword = (event) => {
+    this.setState({
+      ...this.state,
+      password: event.target.value,
+    })
+  }
+
   redirectLoggedUser = () => {
     if (this.props.user._id) {
       return store.dispatch(push('/'))
@@ -30,7 +53,9 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.actions.login.submit(this.email.value, this.password.value)
+    if (this.state.email || this.state.password) {
+      this.props.actions.login.submit(this.state.email, this.state.password)
+    }
   }
 
   render() {
@@ -40,25 +65,36 @@ class Login extends Component {
           <h1 className={styles.heading}>Login</h1>
           <form onSubmit={this.handleSubmit}>
             <input
-              className={styles.input}
+              className={
+                this.props.user.error &&
+                this.props.user.error.badLogin ?
+                  styles.invalidInput : styles.input
+              }
               type="text"
               name="email"
               placeholder="Email"
-              ref={node => this.email = node}
+              autoFocus
+              value={this.state.email}
+              onChange={this.updateEmail}
             />
             <div className={styles.sameline}>
               <input
-                className={styles.input}
+                className={
+                  this.props.user.error &&
+                  this.props.user.error.badLogin ?
+                    styles.invalidInput : styles.input
+                }
                 type="password"
                 name="password"
                 placeholder="Password"
-                ref={node => this.password = node}
+                value={this.state.password}
+                onChange={this.updatePassword}
               />
               <input
                 className={styles.button}
                 type="submit"
                 value="↵"
-                disabled={this.email && this.email.value === 'test'}
+                disabled={!this.state.email || !this.state.password}
               />
             </div>
           </form>

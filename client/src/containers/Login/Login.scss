@@ -44,6 +44,7 @@
   font-weight: bold;
   width: 100%;
   width: calc(100% - 10px);
+  transition: .5s border-color, .5s color;
 }
 
 .button {
@@ -65,9 +66,17 @@
   }
 
   &:disabled {
+    transition: none;
+    color: rgba(255, 255, 255, .5);
     cursor: not-allowed;
     background: rgba(255, 255, 255, 0);
   }
+}
+
+.invalidInput {
+  @extend .input;
+  border-color: rgb(165, 0, 0);
+  color: rgb(165, 0, 0);
 }
 
 .sameline {

@@ -69,6 +69,9 @@ export default store => next => action => {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error)
+          if (error.message === '401') {
+            error.badLogin = true
+          }
           store.dispatch({
             type: FETCH_LOGIN_ERROR,
             error,
