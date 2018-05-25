@@ -17,10 +17,10 @@ const sendErrorMessage = (res, message, error) => {
 }
 
 devices.get('/', (req, res) => {
-  const { page, limit, search } = req.body
+  const { page, limit, search } = req.query
   if (
-    page && typeof(page) !== 'number' ||
-    limit && typeof(limit) !== 'number'
+    page && isNaN(Number(page)) ||
+    limit && isNaN(Number(limit))
   ) {
     return sendErrorMessage(res, 'Page and limit must be a number')
   }

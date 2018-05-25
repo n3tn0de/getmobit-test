@@ -15,10 +15,10 @@ const sendErrorMessage = (res, message, error) => {
 const fields = 'email firstName lastName canEdit'
 
 users.get('/', (req, res) => {
-  const { page, limit, search } = req.body
+  const { page, limit, search } = req.query
   if (
-    page && typeof(page) !== 'number' ||
-    limit && typeof(limit) !== 'number'
+    page && isNaN(Number(page)) ||
+    limit && isNaN(Number(limit))
   ) {
     return sendErrorMessage(res, 'Page and limit must be a number')
   }
