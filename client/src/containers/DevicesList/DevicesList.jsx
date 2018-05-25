@@ -30,9 +30,15 @@ class DevicesList extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.search !== this.state.search ||
-      prevProps.match.params.page !== this.props.match.params.page
+      prevState.search !== this.state.search
     ) {
+      this.props.actions.devices.paginate(
+        1,
+        null,
+        this.state.search
+      )
+    }
+    if (prevProps.match.params.page !== this.props.match.params.page) {
       this.props.actions.devices.paginate(
         this.props.match.params.page,
         null,

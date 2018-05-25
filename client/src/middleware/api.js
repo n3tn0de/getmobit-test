@@ -90,6 +90,9 @@ export default store => next => action => {
         }
         url.searchParams.append(param, action[param])
       })
+      if (action.page === 1) {
+        store.dispatch(push('/'))
+      }
       store.dispatch(
         push({ search: action.search && `search=${action.search}` })
       )
