@@ -7,6 +7,9 @@ import {
   FETCH_LOGIN_REQUEST,
   FETCH_LOGIN_SUCCESS,
   FETCH_LOGIN_ERROR,
+  FETCH_DEVICES_REQUEST,
+  FETCH_DEVICES_SUCCESS,
+  FETCH_DEVICES_ERROR,
 } from '../action-types'
 
 const parseJSON = response => response.json();
@@ -74,6 +77,46 @@ export default store => next => action => {
           }
           store.dispatch({
             type: FETCH_LOGIN_ERROR,
+            error,
+          });
+        });
+      break
+    }
+    case FETCH_DEVICES_REQUEST: {
+      const url = new URL(`${api}/devices`)
+      Object.keys(action).map(param => {
+        if (param === 'type' || !action[param]) {
+          return
+        }
+        url.searchParams.append(param, action[param])
+      })
+      store.dispatch(
+        push({ search: action.search && `search=${action.search}` })
+      )
+      fetch(url, {
+        credentials: 'include',
+        method: 'get',
+        headers: {
+          Accept: `application/json`,
+          'Content-Type': `application/json`,
+        },
+      })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then((data) => {
+          store.dispatch({
+            type: FETCH_DEVICES_SUCCESS,
+            data: {
+              ...data,
+              search: action.search,
+            }
+          });
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error)
+          store.dispatch({
+            type: FETCH_DEVICES_ERROR,
             error,
           });
         });

@@ -1,0 +1,48 @@
+.main {
+  p {
+    padding: 20px;
+    font-size: 1.1em;
+  }
+}
+
+.pagination {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  border-radius: 1px;
+  border: 2px solid #fff;
+  position: relative;
+  background: #fff;
+  margin: 10px 5px 10px 0;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 5px;
+  flex: 0 0 auto;
+  transition: .5s background, .5s color;
+  text-decoration: none;
+  color: #000;
+  margin: 0 10px;
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .25);
+  }
+}
+
+.search {
+  border-radius: 1px;
+  border: 2px solid #fff;
+  background: none;
+  padding: 5px 10px;
+  font-size: 1.8em;
+  color: #fff;
+  display: block;
+  margin: 10px 5px;
+  font-weight: bold;
+  width: 100%;
+  width: calc(100% - 10px);
+}

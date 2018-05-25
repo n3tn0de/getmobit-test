@@ -1,0 +1,65 @@
+.main {
+  position: relative;
+  color: #fff;
+  border: none;
+  width: 100%;
+  flex: 0 0 auto;
+  font-size: 1.2em;
+
+  thead {
+    tr {
+      background: none;
+
+      &:hover {
+        background: none;
+      }
+
+      td {
+        padding: 10px 20px;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: .5s background;
+      background: rgba(255, 255, 255, .15);
+
+      &:nth-child(2n) {
+        background: none;
+      }
+
+      &:first-child {
+        border-bottom: 1px solid #ccc;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, .50);
+        // color: #000;
+      }
+    }
+
+    tr td {
+      border-left: 1px solid #ccc;
+      padding: 10px 5px;
+      text-align: center;
+
+      &:first-child {
+        font-size: 1.225em;
+        border: none;
+        text-align: left;
+        padding-left: 20px;
+      }
+    }
+  }
+}
+
+.smallFont {
+  display: inline-block;
+  margin: 5px 10px;
+  font-size: .8em;
+
+  @media all and (max-width: 600px) {
+    display: none;
+  }
+}
