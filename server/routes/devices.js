@@ -42,7 +42,7 @@ devices.get('/', (req, res) => {
   paginate(
     Device, page, limit, {
       query: queryObject,
-      fields: 'ip ipv6 mac name group users',
+      fields: 'ipv4 ipv6 mac name group users',
       populate: 'users',
       populateFields: 'email firstName lastName',
     },
